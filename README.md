@@ -1,8 +1,8 @@
-# immortal
+# introduction
 
 I had an old Lenovo laptop with a broken screen sitting around, so I took the display off and turned the bare board into a 24/7 headless Linux home server.
 
-It runs a media setup for my family, stays reachable from anywhere without opening router ports, and sits at around 10–12W idle.
+It runs a media setup, stays reachable from anywhere without opening router ports, and sits at around 10–12W idle.
 
 ---
 
@@ -12,7 +12,7 @@ It runs a media setup for my family, stays reachable from anywhere without openi
 * **CPU:** Intel Core i3-6006U
 * **RAM:** 8 GB DDR4
 * **GPU:** Intel HD 520 (used for Jellyfin hardware transcoding). The dedicated Nvidia GT 920M is turned off in BIOS (UMA-only) since it lacks NVENC anyway and just wastes power.
-* **Storage:** 2.5" SATA SSD (originally tried a 3.5" desktop HDD, but laptop SATA ports only supply 5V and can't spin a 12V drive)
+* **Storage:** 2.5" SATA SSD 512 GB
 * **Network:** External dual-band USB Wi-Fi adapter
 
 ---
@@ -40,25 +40,15 @@ Everything runs inside Docker Compose using a shared `./data` mount so completed
 
 ---
 
-## Go Portal (`main.go`)
-
-A small Go server listening on `:4000` so my family only needs to bookmark one link (`http://immortal:4000`). It renders a simple page with buttons for watching or requesting, reads the incoming `r.Host` header dynamically (so it works over both local Wi-Fi and Tailscale IPs), and redirects to the right port. Runs in the background as a compiled binary via `systemd`.
-
----
-
 ## Quick Setup
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/ph01001000/immortal_server.git
+cd immortal_server
 
 # Create local data folders (ignored by git)
 mkdir -p data/{torrents,movies,tv} data/config/{jellyfin,qbittorrent,radarr,sonarr,prowlarr,seerr}
 
 # Start the stack
 docker compose up -d
-
-# Build and run the Go portal
-go build -o gateway main.go
-./gateway
 ```
