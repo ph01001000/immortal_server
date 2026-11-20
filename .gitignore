@@ -1,0 +1,10 @@
+# Ignore all downloaded media, torrents, and container configs/keys
+data/
+
+# Ignore compiled Go binaries and log files
+gateway
+*.log
+
+# Ignore OS artifacts
+.DS_Store
+*.swp
